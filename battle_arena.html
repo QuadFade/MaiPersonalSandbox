@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mai's Monster Battle Arena</title>
+    <style>
+        /* --- GLOBAL RESET & PALETTE --- */
+        body {
+            font-family: 'Verdana', sans-serif;
+            background-color: #b1d3ff; /* Light blue/sky background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px; /* Reduced padding for tight mobile fit */
+            min-height: 100vh;
+            margin: 0;
+        }
+        #battle-container {
+            width: 100%; /* Full width on mobile */
+            max-width: 1000px;
+            background: #fefefe;
+            border: 6px solid #4362a1; /* Slightly reduced border size */
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            padding: 15px; /* Reduced padding */
+        }
+
+        /* --- BATTLE LOG --- */
+        #battle-log {
+            height: 120px; /* Reduced height for tighter mobile view */
+            overflow-y: auto;
+            border: 2px solid #a8a8a8;
+            padding: 8px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            background-color: #e6e6e6;
+            font-size: 0.85em; /* Slightly smaller font for mobile */
+            line-height: 1.3;
+        }
+        .log-message {
+            margin: 2px 0;
+        }
+
+        /* --- MONSTER DISPLAY (Player & Enemy) --- */
+        .monster-area {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        .monster-card {
+            width: 100%; /* Full width stacking on mobile */
+            margin-bottom: 15px; /* Added spacing between stacked cards */
+            min-height: 200px; /* Reduced min height */
+            background-color: #fff;
+            border: 4px solid #cc0000; /* Slightly thinner border */
+            border-radius: 8px;
+            padding: 12px; /* Reduced padding */
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .monster-card.player {
+            border-color: #00cc00;
+        }
+        .monster-name {
+            font-size: 1.5em; /* Smaller font on mobile */
+            text-align: center;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .monster-hp-bar-container {
+            width: 100%;
+            background-color: #ccc;
+            border-radius: 3px;
+            height: 20px; /* Slightly smaller height */
+            margin-top: 8px;
+            border: 1px solid #333;
+        }
+        .hp-bar {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease-out;
+        }
+        .monster-stats {
+            margin-top: 10px;
+            border-top: 1px dashed #aaa;
+            padding-top: 8px;
+            font-size: 0.8em; /* Smaller font for stats */
+        }
+
+        /* --- ACTION BUTTONS --- */
+        #action-area {
+            display: flex;
+            flex-direction: column; /* Force vertical stacking for mobile */
+            gap: 10px;
+            padding: 15px 0;
+            border-top: 2px solid #ccc;
+        }
+        .action-btn {
+            background-color: #4362a1;
+            color: white;
+            border: none;
+            padding: 12px 20px; /* Adjusted padding for touch targets */
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 3px #2a4271;
+        }
+        .action-btn:hover:not(:disabled) {
+            background-color: #5a7cb3;
+        }
+        .action-btn:disabled {
+            background-color: #888;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .action-btn:active:not(:disabled) {
+            transform: translateY(3px);
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Original Desktop/Tablet breakpoint */
+        @media (min-width: 769px) {
+            .monster-area {
+                flex-direction: row; /* Desktop layout */
+                gap: 20px;
+            }
+            .monster-card {
+                width: 45%; /* Desktop card width */
+                margin-bottom: 0;
+            }
+            #action-area {
+                flex-direction: row; /* Desktop button layout */
+                gap: 20px;
+            }
+            .monster-card {
+                min-height: 250px; /* Desktop min height */
+            }
+            .monster-name {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body id="main-body">
+
+<!-- --- BATTLE UI --- -->
+<div id="battle-container">
+    
+    <div id="monster-area" class="monster-area">
+        
+        <!-- Enemy Display -->
+        <div id="enemy-card" class="monster-card enemy">
+            <div class="monster-name">Wild Grunt Bug</div>
+            <div class="monster-hp-bar-container">
+                <div id="enemy-hp-bar" class="hp-bar"></div>
+            </div>
+            <p>HP: <span id="enemy-hp-text">100</span> / 100</p>
+            <div class="monster-stats">
+                <strong>Type:</strong> Bug | 
+                <strong>Attack:</strong> 15 | 
+                <strong>Defense:</strong> 10
+            </div>
+        </div>
+
+        <!-- Player Display -->
+        <div id="player-card" class="monster-card player">
+            <div class="monster-name" id="player-name">Mai's Proto-Critter</div>
+            <div class="monster-hp-bar-container">
+                <div id="player-hp-bar" class="hp-bar"></div>
+            </div>
+            <p>HP: <span id="player-hp-text">120</span> / 120</p>
+            <div class="monster-stats">
+                <strong>Type:</strong> Starter | 
+                <strong>Attack:</strong> 20 | 
+                <strong>Defense:</strong> 15
+            </div>
+        </div>
+    </div >
+
+    <!-- Battle Log -->
+    <div id="battle-log">
+        <p class="log-message">A wild Wild Grunt Bug appeared!</p>
+        <p class="log-message">A battle has begun!</p>
+    </div >
+
+    <!-- Action Buttons -->
+    <div id="action-area">
+        <button class="action-btn" id="attack-btn">Attack</button>
+        <button class="action-btn" id="heal-btn">Heal</button>
+        <button class="action-btn" id="flee-btn">Flee</button>
+    </div >
+
+</div >
+
+<script>
+    // ======================================================
+    // CORE GAME DATA STRUCTURES
+    // ======================================================
+    let characters = {
+        player: {
+            name: "Mai's Proto-Critter",
+            maxHp: 120,
+            currentHp: 120,
+            attack: 20,
+            defense: 15,
+            type: "Starter",
+            isPlayerTurn: true
+        },
+        enemy: {
+            name: "Wild Grunt Bug",
+            maxHp: 100,
+            currentHp: 100,
+            attack: 15,
+            defense: 10,
+            type: "Bug",
+            isPlayerTurn: false
+        }
+    };
+
+    // ======================================================
+    // DOM ELEMENTS
+    // ======================================================
+    const battleLog = document.getElementById('battle-log');
+    const playerHpBar = document.getElementById('player-hp-bar');
+    const playerHpText = document.getElementById('player-hp-text');
+    const enemyHpBar = document.getElementById('enemy-hp-bar');
+    const enemyHpText = document.getElementById('enemy-hp-text');
+    const attackBtn = document.getElementById('attack-btn');
+    const healBtn = document.getElementById('heal-btn');
+    const fleeBtn = document.getElementById('flee-btn');
+
+    // ======================================================
+    // COMBAT LOGIC
+    // ======================================================
+
+    function logMessage(message) {
+        const p = document.createElement('p');
+        p.className = 'log-message';
+        p.innerHTML = message;
+        battleLog.prepend(p); // Add to the top
+        // Keep log tidy (max 30 entries)
+        if (battleLog.children.length > 30) {
+            battleLog.removeChild(battleLog.lastChild);
+        }
+    }
+
+    function updateUI() {
+        // Player Stats
+        const playerPercent = (characters.player.currentHp / characters.player.maxHp) * 100;
+        playerHpBar.style.width = `${playerPercent}%`;
+        playerHpText.textContent = `${characters.player.currentHp} / ${characters.player.maxHp}`;
+
+        // Enemy Stats
+        const enemyPercent = (characters.enemy.currentHp / characters.enemy.maxHp) * 100;
+        enemyHpBar.style.width = `${enemyPercent}%`;
+        enemyHpText.textContent = `${characters.enemy.currentHp} / ${characters.enemy.maxHp}`;
+    }
+
+    function calculateDamage(attacker, defender) {
+        // Simple damage formula: Attacker Attack - Defender Defense + Random Variance (-5 to +5)
+        let damage = attacker.attack + Math.floor(Math.random() * 11) - 5;
+        damage = Math.max(1, damage); // Always deal at least 1 damage
+        return damage;
+    }
+
+    function executePlayerTurn() {
+        if (!characters.player.isPlayerTurn) return;
+
+        // In a real game, the action would be determined by button click. Here, we assume Attack.
+        let action = "Attack"; 
+
+        let damageDealt = calculateDamage(characters.player, characters.enemy);
+        characters.enemy.currentHp -= damageDealt;
+
+        logMessage(`${characters.player.name} used Attack on ${characters.enemy.name}! Dealt ${damageDealt} damage.`);
+
+        checkBattleStatus();
+        
+        // Switch turn immediately
+        characters.player.isPlayerTurn = false;
+        updateUI();
+        
+        // Disable buttons during the turn delay
+        attackBtn.disabled = true;
+        healBtn.disabled = true;
+        fleeBtn.disabled = true;
+        
+        // Execute enemy turn after a short delay for the "turn" feel
+        setTimeout(executeEnemyTurn, 1500);
+    }
+
+    function executeEnemyTurn() {
+        if (characters.enemy.currentHp <= 0) return; // Already defeated
+        if (characters.player.currentHp <= 0) return; // Player already fainted
+
+        let damageDealt = calculateDamage(characters.enemy, characters.player);
+        characters.player.currentHp -= damageDealt;
+
+        logMessage(`${characters.enemy.name} used Attack on ${characters.player.name}! Dealt ${damageDealt} damage.`);
+
+        checkBattleStatus();
+        
+        // Switch turn back to player
+        characters.player.isPlayerTurn = true;
+        updateUI();
+        
+        // Re-enable player actions
+        attackBtn.disabled = false;
+        healBtn.disabled = false;
+        fleeBtn.disabled = false;
+    }
+    
+    function checkBattleStatus() {
+        if (characters.player.currentHp <= 0) {
+            logMessage(`${characters.player.name} fainted... GAME OVER.`);
+            disableAllActions();
+        } else if (characters.enemy.currentHp <= 0) {
+            logMessage(`${characters.enemy.name} was defeated! VICTORY!`);
+            disableAllActions();
+        }
+    }
+
+    function disableAllActions() {
+        attackBtn.disabled = true;
+        healBtn.disabled = true;
+        fleeBtn.disabled = true;
+    }
+
+
+    // ======================================================
+    // EVENT LISTENERS & INITIALIZATION
+    // ======================================================
+    attackBtn.addEventListener('click', executePlayerTurn);
+
+    healBtn.addEventListener('click', () => {
+        if (!characters.player.isPlayerTurn) return;
+        // Simple heal logic (Heal 20% of max HP)
+        const healAmount = Math.floor(characters.player.maxHp * 0.20);
+        characters.player.currentHp = Math.min(characters.player.maxHp, characters.player.currentHp + healAmount);
+        characters.player.isPlayerTurn = false; // End turn after action
+        
+        logMessage(`${characters.player.name} used Heal! Restored ${healAmount} HP.`);
+        
+        checkBattleStatus();
+        updateUI();
+        
+        // Disable buttons and transition to enemy turn
+        attackBtn.disabled = true;
+        healBtn.disabled = true;
+        fleeBtn.disabled = true;
+        setTimeout(executeEnemyTurn, 1500);
+    });
+
+    fleeBtn.addEventListener('click', () => {
+        if (!characters.player.isPlayerTurn) return;
+        // Attempt to flee (50% chance)
+        if (Math.random() > 0.5) {
+            logMessage(`${characters.player.name} successfully retreated!`);
+            disableAllActions();
+        } else {
+            logMessage(`${characters.player.name} failed to escape!`);
+            // Turn still passes to enemy despite trying to flee
+            characters.player.isPlayerTurn = false;
+            checkBattleStatus();
+            updateUI();
+            // Re-enable player actions for next turn
+            setTimeout(executeEnemyTurn, 1500);
+        }
+    });
+
+    // Initialize the UI state
+    updateUI();
+</script>
+
+</body>
+</html>
