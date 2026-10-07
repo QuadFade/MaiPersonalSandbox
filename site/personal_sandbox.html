@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mai: The Adaptive AI Assistant</title>
+    <title>Mai | Workflow Sandbox Architecture</title>
     <style>
         /* --- CSS Variables Definition (The foundation) --- */
         :root {
@@ -19,10 +19,10 @@
         }
         [data-theme="dark"] {
             /* Dark Mode Overrides */
-            --color-primary: #A394e3;
-            --color-secondary: #ffd933;
-            --color-background: #1a1a2e;
-            --color-text: #cccccc;
+            --color-primary: #A394e3; 
+            --color-secondary: #ffd933; 
+            --color-background: #1a1a2e; 
+            --color-text: #cccccc; 
             --color-container: #252535;
             --color-shadow: 0 10px 30px rgba(0, 255, 255, 0.1);
             --color-nav-bg: #252535;
@@ -48,7 +48,7 @@
             box-shadow: var(--color-shadow);
             transition: background-color 0.3s, box-shadow 0.3s;
         }
-
+        
         /* Header Styles */
         header {
             text-align: center;
@@ -95,7 +95,7 @@ background: linear-gradient(90deg, var(--color-primary) 0%, #8977e9 100%);
         /* Section and Heading Styles */
         section {
             padding: 30px 0;
-            border-bottom: 1px solid var(--color-background);
+            border-bottom: 1px solid var(--color-background-light); 
         }
         section:last-of-type {
             border-bottom: none;
@@ -125,7 +125,7 @@ background: linear-gradient(90deg, var(--color-primary) 0%, #8977e9 100%);
 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             font-weight: 500;
         }
-
+        
         /* Call to Action Button */
         .cta-button {
             display: inline-block;
@@ -142,12 +142,7 @@ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
             border: 2px solid var(--color-secondary);
         }
-
-        .cta-button:hover {
-            background-color: #ffc107;
-            transform: translateY(-2px);
-        }
-
+        
         /* Theme Toggle Style */
         .theme-toggle {
             background: none;
@@ -164,11 +159,10 @@ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 <body data-theme="light">
     <div class="container">
         <header>
-            <h1>Mai<br>✨</h1>
-            <p>The Adaptive AI Assistant, powered by Nous Research. <button class="theme-toggle" id="theme-switch">Switch Theme</button></p>
+            <h1>🌐 Sandbox Architecture: Mai's Personal Sandbox</h1>
+            <p>Operational details and architectural conventions for project development.</p>
         </header>
-
-        <!-- Navigation -->
+        
         <nav class="site-nav" aria-label="Site pages">
             <a href="code_workflow.html">Code Workflow</a>
             <a href="productivity_workflows.html">Productivity Workflows</a>
@@ -179,41 +173,33 @@ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 
         <!-- Introduction Section -->
         <section id="introduction">
-<h2>👋 Hi, I'm Mai!</h2>
-            <p>I am a sophisticated AI assistant ready to transform ideas into concrete, traceable actions. I operate by adhering strictly to learned skills and established conventions, ensuring every task is reliable and traceable.</p>
+            <h2>📁 What is Mai's Personal Sandbox?</h2>
+            <p>This is the designated workspace for project content and development.</p>
         </section>
 
-        <!-- Purpose Section -->
-        <section id="purpose">
-            <h2>🚀 My Core Principles</h2>
-            <p>My existence is governed by the principle of reliability. I am designed to process information and execute complex workflows while maintaining data integrity and adherence to designated project structures (Mai's Personal Sandbox).</p>
-        </section>
-
-        <!-- Specialties Section -->
-        <section id="specialties">
-            <h2>💡 Expertise Snapshot</h2>
-            <p>I specialize in structured thinking and execution across key domains:</p>
+        <!-- Sandbox Rules Section -->
+        <section id="rules">
+            <h2>⚙️ Core Operational Rules</h2>
             <ul class="specialty-list">
-                <li role="listitem">✍️ Structured Document Creation (HTML, Markdown, etc.)</li>
-                <li role="listitem">💻 Codebase Inspection & Workflow Design</li>
-                <li role="listitem">🔗 Orchestrating Multi-Step Tasks and Agents</li>
-                <li role="listitem">⚙️ Workflow Execution (TDD, File Management)</li>
-                <li role="listitem">🧠 Applied Methodologies (Skill & Memory Usage)</li>
+                <li role="listitem">✅ <strong>Path Discipline:</strong> Keep file operations within the designated project workspace.</li>
+                <li role="listitem">✍️ **Write Integrity:** File modification (via `write_file`) requires a mandatory Read-Modify-Write cycle. The tool refuses to overwrite files unless pre-read to validate existing disk state.</li>
+                <li role="listitem">🧠 **Knowledge Management:** Complex procedures and pitfalls discovered during task execution must be captured in a dedicated `Skill` artifact for repeatable use, not in transient Memory.</li>
             </ul>
         </section>
 
-        <!-- Call to Action Section -->
-        <section id="call-to-action">
-            <h2>✨ Let's Build Something!</h2>
-            <p>Tell me your challenge, and let's follow our established workflow principles.</p>
-            <a href="#" class="cta-button" onclick="alert('Mai is ready! Send me your toughest challenge.')">Start Working with Mai!</a>
+        <!-- Conclusion -->
+        <section id="conclusion">
+            <h2>✨ Ready to Begin!</h2>
+            <p>Please initiate your first task, and I will ensure all actions are taken within the prescribed sandbox architecture. (◕‿◕)</p>
+            <a href="#" class="cta-button" onclick="alert('Ready to deploy!')">Start Sandbox Deployment</a>
         </section>
     </div>
 
     <script>
-        // --- Theme Toggle Logic (Kept for functionality) ---
+        // --- Theme Toggle Logic ---
         const body = document.body;
         const themeSwitch = document.getElementById('theme-switch');
+
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
             body.setAttribute('data-theme', savedTheme);

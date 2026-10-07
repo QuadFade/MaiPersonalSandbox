@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mai's workflow conventions and collaboration principles.">
+    <title>Mai | Interaction History &amp; Memory</title>
+    <style>
+        :root {
+            --primary-color: #6A5ACD;
+            --secondary-color: #9370DB;
+            --background: #f4f7fa;
+            --text: #333;
+            --surface: #fff;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background: var(--background);
+            color: var(--text);
+            font: 16px/1.6 Arial, sans-serif;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 24px;
+            background: var(--surface);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+        header {
+            padding: 24px;
+            color: white;
+            text-align: center;
+            background: linear-gradient(90deg, var(--primary-color), #8977e9);
+            border-radius: 10px;
+        }
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin: 20px 0;
+        }
+        nav a {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+        }
+        .interaction-card {
+            margin: 16px 0;
+            padding: 16px;
+            background: #eef2ff;
+            border-left: 5px solid var(--secondary-color);
+            border-radius: 8px;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --background: #1a1a2e;
+                --text: #eee;
+                --surface: #252535;
+            }
+            .interaction-card {
+                background: #353548;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header>
+            <h1>Interaction History &amp; Memory</h1>
+            <p>Workflow conventions and collaboration principles.</p>
+        </header>
+
+        <nav aria-label="Site pages">
+            <a href="index.html">Mai Home</a>
+            <a href="personal_sandbox.html">Sandbox Architecture</a>
+            <a href="code_workflow.html">Code Workflow</a>
+            <a href="productivity_workflows.html">Productivity</a>
+            <a href="research_capabilities.html">Research</a>
+        </nav>
+
+        <section id="rules">
+            <h2>Established Conventions</h2>
+            <p>This page summarizes collaboration preferences and project practices.</p>
+            <ul>
+                <li>Use the designated project workspace for project files.</li>
+                <li>Read existing files before modifying them and validate the result.</li>
+                <li>Keep responses direct and proportional to the task.</li>
+            </ul>
+        </section>
+
+        <section id="process">
+            <h2>Workflow Practices</h2>
+            <div class="interaction-card">
+                <strong>File management:</strong> Keep changes scoped to the project and verify the current file contents before editing.
+            </div>
+            <div class="interaction-card">
+                <strong>Reusable procedures:</strong> Record complex, repeatable processes in dedicated documentation.
+            </div>
+        </section>
+
+        <p><a href="index.html">Return to Mai's home page</a></p>
+    </main>
+</body>
+</html>
